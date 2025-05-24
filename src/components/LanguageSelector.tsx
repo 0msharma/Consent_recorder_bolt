@@ -21,9 +21,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         <h3 className="text-xl font-semibold text-gray-800 mb-2">
           Step 1: Select Your Language
         </h3>
-        <p className="text-gray-600">
+        {/* <p className="text-gray-600">
           Choose the language in which you want to give your consent
-        </p>
+        </p> */}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -59,11 +59,11 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           <ArrowRight size={20} />
         </button>
         
-        {!selectedLanguage && (
+        {/* {!selectedLanguage && (
           <p className="text-sm text-blue-600 mt-2">
             Please select a language to continue
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );
