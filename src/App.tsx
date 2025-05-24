@@ -7,6 +7,7 @@ import { Notification } from './types';
 
 function App() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [watchedDuration, setWatchedDuration] = useState(0);
 
   const addNotification = (message: string, type: 'info' | 'success' | 'error') => {
     const newNotification: Notification = {
@@ -30,8 +31,9 @@ function App() {
           <VideoPlayer 
             src="https://www.example.com/sample-video.mp4" 
             poster="https://images.pexels.com/photos/3760778/pexels-photo-3760778.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            onWatchTimeUpdate={setWatchedDuration}
           />
-          <ConsentRecorder onNotify={addNotification} />
+          <ConsentRecorder onNotify={addNotification} watchedDuration={watchedDuration} />
         </div>
       </main>
       

@@ -7,12 +7,14 @@ interface RecordingInterfaceProps {
   onStartRecording: () => void;
   onStopRecording: () => void;
   recordingStatus: RecordingStatus;
+  watchedDuration: number; // <-- add this
 }
 
 const RecordingInterface: React.FC<RecordingInterfaceProps> = ({
   onStartRecording,
   onStopRecording,
   recordingStatus,
+  watchedDuration, // <-- add this
 }) => {
   const [timeLeft, setTimeLeft] = useState(30);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -99,25 +101,30 @@ const RecordingInterface: React.FC<RecordingInterfaceProps> = ({
     }
   };
 
-const uploadToS3 = async (videoBlob: Blob) => {
-  const formData = new FormData();
-  formData.append('video', videoBlob, 'recording.webm');
+  const uploadToS3 = async (videoBlob: Blob) => {
+    const formData = new FormData();
+    formData.append('video', videoBlob, 'recording.webm');
+    formData.append('campaignNumber', campaignValue);
+    formData.append('watchedDuration', watchedDuration.toString()); // <-- add this
 
-  try {
-    const response = await axios.post('http://localhost:4000/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    console.log('Uploaded successfully:', response.data.url);
-  } catch (error) {
-    console.error('Upload failed:', error);
-  }
-};
+    try {
+      const response = await axios.post('http://localhost:4000/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log('Uploaded successfully:', response.data.url);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const campaignValue = urlParams.get('id') || '001'; // default to '001' if not present
 
   return (
     <div className="animate-fadeIn">

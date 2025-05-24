@@ -6,9 +6,10 @@ import { LANGUAGES } from '../constants/languages';
 
 interface ConsentRecorderProps {
   onNotify: (message: string, type: 'info' | 'success' | 'error') => void;
+  watchedDuration: number;
 }
 
-const ConsentRecorder: React.FC<ConsentRecorderProps> = ({ onNotify }) => {
+const ConsentRecorder: React.FC<ConsentRecorderProps> = ({ onNotify, watchedDuration }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('idle');
   const [showRecordingInterface, setShowRecordingInterface] = useState(false);
@@ -80,6 +81,7 @@ const ConsentRecorder: React.FC<ConsentRecorderProps> = ({ onNotify }) => {
               recordingStatus={recordingStatus}
               onStartRecording={handleStartRecording}
               onStopRecording={handleStopRecording}
+              watchedDuration={watchedDuration}
             />
           </div>
         )}
